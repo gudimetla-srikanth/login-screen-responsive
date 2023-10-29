@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import women from './assets/women.png'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+
 export default function App() {
+  const [showPassword, setShowPassword] = useState(false)
+  const handle = () => {
+    setShowPassword(prev => !prev)
+  }
   return (
     <Div main>
       <Div left>
@@ -14,35 +20,37 @@ export default function App() {
             <NormalDiv>
               <H1>Login</H1>
             </NormalDiv>
-            <NormalDiv login_content>
-              <NormalDiv login>Login ID</NormalDiv>
-              <NormalDiv><Input type='text' placeholder='Enter Login ID' /></NormalDiv>
-            </NormalDiv>
-            <NormalDiv login_content>
-              <NormalDiv password>Password</NormalDiv>
-              <NormalDiv pos><Input type='password' placeholder='Enter Password' /><VisibilityOffIcon sx={{ position: "absolute", right: "5px", top: "5px" }} /></NormalDiv>
-            </NormalDiv>
-            <NormalDiv check_flex>
-              <NormalDiv>
-                <NormalDiv check_box>
-                  <NormalDiv><Input checkType type='checkbox' /></NormalDiv> <NormalDiv>Remember Me</NormalDiv>
+            <FormTag>
+              <NormalDiv login_content>
+                <NormalDiv login>Login ID</NormalDiv>
+                <NormalDiv><Input type='text' placeholder='Enter Login ID' name='loginId' /></NormalDiv>
+              </NormalDiv>
+              <NormalDiv login_content>
+                <NormalDiv password>Password</NormalDiv>
+                <NormalDiv pos><Input type={`${showPassword ? 'text' : 'password'}`} placeholder='Enter Password' name='password' />{showPassword ? <VisibilityIcon sx={{ position: "absolute", right: "5px", top: "5px" }} onClick={handle} /> : <VisibilityOffIcon sx={{ position: "absolute", right: "5px", top: "5px" }} onClick={handle} />}</NormalDiv>
+              </NormalDiv>
+              <NormalDiv check_flex>
+                <NormalDiv>
+                  <NormalDiv check_box>
+                    <NormalDiv red><Input checkType type='checkbox' name='remember' /></NormalDiv> <NormalDiv re>Remember Me</NormalDiv>
+                  </NormalDiv>
+                  <NormalDiv check_box>
+                    <NormalDiv><Input checkType type='checkbox' name='agree' /></NormalDiv> <NormalDiv re>Agree to</NormalDiv><NormalDiv yellow underline re>Terms & Conditions</NormalDiv>
+                  </NormalDiv>
                 </NormalDiv>
-                <NormalDiv check_box>
-                  <NormalDiv><Input checkType type='checkbox' /></NormalDiv> <NormalDiv>Agree to</NormalDiv><NormalDiv yellow underline>Terms & Conditions</NormalDiv>
+                <NormalDiv>
+                  <NormalDiv yellow re>
+                    Change Password
+                  </NormalDiv>
                 </NormalDiv>
               </NormalDiv>
-              <NormalDiv>
-                <NormalDiv yellow>
-                  Change Password
-                </NormalDiv>
+              <NormalDiv btn>
+                <Button>Login</Button>
               </NormalDiv>
-            </NormalDiv>
-            <NormalDiv btn>
-              <Button>Login</Button>
-            </NormalDiv>
-            <NormalDiv register>
-              <NormalDiv>Don't have an account?</NormalDiv><NormalDiv yellow>Register Here</NormalDiv>
-            </NormalDiv>
+              <NormalDiv register>
+                <NormalDiv>Don't have an account?</NormalDiv><NormalDiv yellow>Register Here</NormalDiv>
+              </NormalDiv>
+            </FormTag>
           </FlexDiv>
         </BoxDiv>
       </Div>
@@ -61,20 +69,36 @@ width:${props => props.btn && '50%'};
 display:${props => props.register && 'flex'} ;
 margin:5px;
 font-weight:${props => props.register && 'bold'};
-font-weight:${props => props.login && 'bold' || props.password && 'bold'};
-color:${props => props.yellow && 'yellow'};
-cursor:${props => props.yellow && 'pointer'};
-text-decoration:${props => props.underline && 'underline'};
-position:${props => props.pos && 'relative'};
+font-weight:${props => (props.login && 'bold') || (props.password && 'bold')};
+color:${props => (props.yellow && 'yellow')};
+cursor:${props => (props.yellow && 'pointer')};
+text-decoration:${props => (props.underline && 'underline')};
+position:${props => (props.pos && 'relative')};
+display:${props => (props.hi && 'flex')};
+justify-content:${props => (props.re && 'center')};
+align-items:${props => (props.re && 'start')};
+height:${props => (props.re && '23px')};
 `
 const Div = styled.div`
 width:100vw;
 height:100vh;
 display:${props => props.main && 'flex'};
-flex:${props => props.left && '0.6' || props.right && '1'};
-display:${props => props.left && 'flex' || props.right && 'flex'};
-justify-content:${props => props.left && 'center' || props.right && 'center'};
-align-items:${props => props.left && 'center' || props.right && 'center'}
+flex-wrap:${props => props.main && 'wrap'}
+flex:${props => props.left && '1'};
+display:${props => (props.left && 'flex') || (props.right && 'flex')};
+justify-content:${props => (props.left && 'center') || (props.right && 'center')};
+align-items:${props => (props.left && 'center') || (props.right && 'center')};
+
+@media (max-width:670px){
+  position:${props => props.left && 'absolute'};
+  z-index:-1;
+  width:${props => props.left && '200px'};
+  height:${props => props.left && '200px'};
+  left:0;
+  right:0;
+  top:0px;
+  margin:auto;
+}
 `
 const BoxDiv = styled.div`
 width:95%;
@@ -114,4 +138,12 @@ border-radius:3px;
 color:white;
 margin:10px;
 cursor:pointer;
+`
+
+const FormTag = styled.form`
+width:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
 `
