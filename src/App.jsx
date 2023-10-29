@@ -80,15 +80,16 @@ align-items:${props => (props.re && 'start')};
 height:${props => (props.re && '23px')};
 `
 const Div = styled.div`
-width:100vw;
-height:100vh;
+width:${props => props.main && '100vw'}
+height:${props => props.main && '100vh'};
 display:${props => props.main && 'flex'};
 flex-wrap:${props => props.main && 'wrap'}
-flex:${props => props.left && '1'};
 display:${props => (props.left && 'flex') || (props.right && 'flex')};
+flex:${props => (props.left && '1') || (props.right && '1.5')};
+height:${props => (props.left && '100vh') || (props.right && '100vh')};
 justify-content:${props => (props.left && 'center') || (props.right && 'center')};
 align-items:${props => (props.left && 'center') || (props.right && 'center')};
-
+display:${props => props.right && 'flex'};
 @media (max-width:670px){
   position:${props => props.left && 'absolute'};
   z-index:-1;
@@ -96,7 +97,7 @@ align-items:${props => (props.left && 'center') || (props.right && 'center')};
   height:${props => props.left && '200px'};
   left:0;
   right:0;
-  top:0px;
+  top:30px;
   margin:auto;
 }
 `
